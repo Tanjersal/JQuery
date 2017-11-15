@@ -63,5 +63,51 @@ $(document).ready(function(){
 
         //set class for this week
         today.siblings("td").addClass("calendarThisWeek");
-    }
+
+    };
+
+
+    var selectedDay = null;
+
+    //select all rows excluding lastmonth and nextMonth
+    $("table.calendarMonth td")
+    .not("td.calendarLastMonth", "td.calendarNextMonth").click(function(){
+
+        if(selectedDay)
+        {
+            //remove the selected class if we have already a selection
+            selectedDay.removeClass("calendarDaySelected")
+            .parent("tr").removeClass("calendarWeekSelected");
+
+        } 
+    
+        //get the selected day and addclass for the day and week
+        //selected 
+
+        var day = $(this);
+
+        selectedDay = day;
+
+        selectedDay.addClass("calendarDaySelected").parent("tr")
+        .addClass("calendarWeekSelected");
+
+
+        //find the calendar day span and assign text
+
+        day.parents("table.calendarMonth").find("span.calendarDay").text(day.text() + "");
+
+
+    }).dblclick(function(){
+
+        //event to change the day selection
+
+        today.removeClass("calendarToday");
+        today = $(this);
+        today.addClass("calendarToday");
+
+        //recalculate days
+        setupThisWeek();
+
+    });    
+
 });
